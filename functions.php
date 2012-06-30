@@ -140,7 +140,11 @@ if ( ! function_exists( 'toolbox_content_nav' ) ):
       // ADD CDN JQUERY CODE
       wp_register_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js');
       wp_enqueue_script('jquery');
+	  wp_register_script('flexslider',get_bloginfo('template_url').'/js/jquery.flexslider-min.js'); 
+	  wp_enqueue_script('flexslider');  
 	  
+      // REGISTERS JS
+	  }
 	  
 function toolbox_content_nav( $nav_id ) {
 	global $wp_query;
