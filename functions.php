@@ -308,3 +308,38 @@ add_filter( 'attachment_link', 'toolbox_enhanced_image_navigation' );
 /**
  * This theme was built with PHP, Semantic HTML, CSS, love, and a Toolbox.
  */
+ 
+ //Custom Post Type
+add_action( 'init', 'create_my_post_types' );
+
+function create_my_post_types() {
+	register_post_type( 'menuitems',
+		array(
+			'labels' => array(
+				'name' => __( 'Menu Items' ),
+				'singular_name' => __( 'Menu Item' ),
+				'add_new' => __( 'Add New Menu Item' ),
+				'add_new_item' => __( 'Add Menu Items' ),
+				'edit' => __( 'Edit' ),
+				'edit_item' => __( 'Edit Menu Item' ),
+				'new_item' => __( 'New Menu Item' ),
+				'view' => __( 'View Menu Item' ),
+				'view_item' => __( 'View Menu Item' ),
+				'search_items' => __( 'Search Menu Items' ),
+				'not_found' => __( 'No Menu Items found' ),
+				'not_found_in_trash' => __( 'No Menu Items found in Trash' ),
+				'parent' => __( 'Parent Menu Item' ),
+
+			),
+			'public' => true,
+			'show_ui' => true,
+			'publicly_queryable' => true,
+			'exclude_from_search' => false,
+			'menu_position' => 20,
+			'hierarchical' => true,
+			'query_var' => true,
+			'supports' => array( 'title', 'editor', 'excerpt','thumbnail','page-attributes' ),
+		)
+	);
+	flush_rewrite_rules( false );
+}
