@@ -41,6 +41,20 @@ get_header(); ?>
 				</article><!-- #post-0 -->
 
 			<?php endif; ?>
+			
+			<div class="flexslider">
+  <ul class="slides">
+    <li>
+      <img src="slide1.jpg" />
+    </li>
+    <li>
+      <img src="slide2.jpg" />
+    </li>
+    <li>
+      <img src="slide3.jpg" />
+    </li>
+  </ul>
+</div>
 
 			</div><!-- #content -->
 		</div><!-- #primary -->
