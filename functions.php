@@ -479,6 +479,35 @@ function toolbox_enhanced_image_navigation( $url ) {
 add_filter( 'attachment_link', 'toolbox_enhanced_image_navigation' );
 
 
+
+// autopopulate days to day_of_the_week_taxonomy
+function populate_day_of_the_week() {
+
+	if (!get_option('days_of_the_week_added')) {
+		
+		$days_of_the_week = array(
+							    'Monday',
+							    'Tuesday',
+							    'Wednesday',
+							    'Thursday',
+							    'Friday',
+							    'Saturday',
+							    'Sunday'
+							);
+
+		foreach ($days_of_the_week as $day) {
+			  wp_insert_term($day, 'day_of_the_week', array('description'=> 'day of the week', 
+        												 'slug' => $day	
+        													));
+		}
+	    add_option('days_of_the_week_added', true);
+	}
+  } 
+
+ add_action('admin_init', 'populate_day_of_the_week');
+
+
+
 /**
  * This theme was built with PHP, Semantic HTML, CSS, love, and a Toolbox.
  */
