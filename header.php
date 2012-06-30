@@ -89,6 +89,4 @@
 			<?php wp_nav_menu( array( 'theme_location' => 'primary' ) ); ?>
 		</nav><!-- #access -->
 	</header><!-- #branding -->
-
->>>>>>> Changed functions file
 	<div id="main">
