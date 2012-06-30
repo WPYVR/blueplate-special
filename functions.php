@@ -126,6 +126,22 @@ if ( ! function_exists( 'toolbox_content_nav' ) ):
  *
  * @since Toolbox 1.2
  */
+
+/**
+ * MANAGE JAVASCRIPT
+ */
+  add_action( 'wp_print_scripts', 'my_deregister_javascript', 1);
+  function my_deregister_javascript() {
+    if (!is_admin()) {
+
+      // DEREGISTER JS
+      wp_deregister_script('jquery');
+
+      // ADD CDN JQUERY CODE
+      wp_register_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js');
+      wp_enqueue_script('jquery');
+	  
+	  
 function toolbox_content_nav( $nav_id ) {
 	global $wp_query;
 
