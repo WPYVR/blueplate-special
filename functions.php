@@ -145,7 +145,7 @@ if ( ! function_exists( 'toolbox_content_nav' ) ):
 	  
       // REGISTERS JS
 	  }
-	  
+	}
 function toolbox_content_nav( $nav_id ) {
 	global $wp_query;
 
