@@ -26,6 +26,7 @@ Use it to make something cool, have fun, and share what you've learned with othe
 #primary {
 	float: left;
 	margin: 0 -240px 0 0;
+	padding-left:  20px;
 	width: 80%;
 }
 #content {
