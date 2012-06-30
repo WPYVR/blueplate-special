@@ -206,8 +206,12 @@ $meta_boxes = array(
             'name' => 'Price',
             'id' => $prefix . 'txtprice',
             'type' => 'text',
+        ),
+		array(
+            'name' => 'Is this a special?',
+            'id' => $prefix . 'checkboxspecial',
+            'type' => 'checkbox',
         )
-
 	)
     )
 )	;
@@ -315,6 +319,16 @@ class My_meta_box {
         }
     }
 }
+
+//Taxonomies
+add_action( 'init', 'build_taxonomies', 0);
+
+function build_taxonomies() {
+register_taxonomy( 'day_of_the_week', 'mymenuitems', array( 'hierarchical' => true, 'label' => 'Day of the Week', 'query_var' => true, 'rewrite' => true ) );
+
+}
+
+
 
 if ( ! function_exists( 'toolbox_comment' ) ) :
 /**
