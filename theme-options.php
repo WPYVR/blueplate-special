@@ -2,9 +2,12 @@
 
 // Default options values
 $sa_options = array(
-	'font_h1' => '',
+	'footer_copyright' => '&copy; ' . date('Y') . ' ' . get_bloginfo('name'),
+	'intro_text' => '',
+	'featured_cat' => '',
 	'font_h2' => '',
-	'font_h3' => ''
+	'layout_view' => 'fixed',
+	'author_credits' => true
 );
 
 if ( is_admin() ) : // Load only if we are viewing an admin page
@@ -16,6 +19,39 @@ function sa_register_settings() {
 
 add_action( 'admin_init', 'sa_register_settings' );
 
+
+// Store layouts views in array
+$sa_layouts = array(
+	'Spirax' => array(
+		'value' => 'Spirax',
+		'label' => 'Spirax'
+	),
+	'Limelight' => array(
+		'value' => 'fluid',
+		'label' => 'Limelight'
+	),
+	'Limelight' => array(
+		'value' => 'fluid',
+		'label' => 'Limelight'
+	),
+	'Josefin+Sans' => array(
+		'value' => 'Josefin+Sans',
+		'label' => 'Josefin Sans'
+	),
+	'Arial' => array(
+		'value' => 'Arial',
+		'label' => 'Arial'
+	),
+	'Alex+Brush' => array(
+		'value' => 'Alex+Brush',
+		'label' => 'Alex Brush'
+	),
+	'Crimson+Text' => array(
+		'value' => 'Crimson+Text',
+		'label' => 'Crimson Text'
+	),
+);
+
 function sa_theme_options() {
 	// Add theme options page to the addmin menu
 	add_theme_page( 'Theme Options', 'Theme Options', 'edit_theme_options', 'theme_options', 'sa_theme_options_page' );
@@ -23,33 +59,9 @@ function sa_theme_options() {
 
 add_action( 'admin_menu', 'sa_theme_options' );
 
-// Store categories in array
-$google_fonts[0] = array(
-	'value' => 'Alex+Brush',
-	'label' => 'Alex Brush'
-);
-
-$google_fonts[1] = array(
-	'value' => 'Crimson+Text',
-	'label' => 'Crimson Text'
-);
-
-$google_fonts[2] = array(
-	'value' => 'Josefin+Sans',
-	'label' => 'Josefin Sans'
-);
-$google_fonts[3] = array(
-	'value' => 'Limelight',
-	'label' => 'Limelight'
-);
-$google_fonts[4] = array(
-	'value' => 'Spirax',
-	'label' => 'Spirax'
-);
-
 // Function to generate options page
 function sa_theme_options_page() {
-	global $sa_options;
+	global $sa_options, $sa_categories, $sa_layouts;
 
 	if ( ! isset( $_REQUEST['updated'] ) )
 		$_REQUEST['updated'] = false; // This checks whether the form has just been submitted. ?>
@@ -73,30 +85,16 @@ function sa_theme_options_page() {
 	and not somewhere else, very important for security */ ?>
 
 	<table class="form-table"><!-- Grab a hot cup of coffee, yes we're using tables! -->
-
-
-	<tr valign="top"><th scope="row"><label for="google_font">Custom Font</label></th>
-	<td>
-	<input id="google_font" name="sa_options[google_font]" type="text" value="<?php  esc_attr_e($settings['google_font']); ?>" />
-	</td>
-	</tr>
-
-	<tr valign="top"><th scope="row"><label for="font_h1">Font for H1</label></th>
-	<td>
-	<select id="font_h1" name="font_h1">
-	<?php
-	foreach ( $google_fonts as $font ) :
-		$label = $font['label'];
-		$selected = '';
-		if ( $fonnt['value'] == $settings['font_h1'] )
-			$selected = 'selected="selected"';
-		echo '<option style="padding-right: 10px;" value="' . esc_attr( $font['value'] ) . '" ' . $selected . '>' . $label . '</option>';
-	endforeach;
-	?>
-	</select>
-	</td>
-	</tr>
 	
+	<tr valign="top"><th scope="row">Custom Font</th>
+	<td>
+	<?php foreach( $sa_layouts as $layout ) : ?>
+	<input type="radio" id="<?php echo $layout['value']; ?>" name="sa_options[layout_view]" value="<?php esc_attr_e( $layout['value'] ); ?>" <?php checked( $settings['layout_view'], $layout['value'] ); ?> />
+	<label for="<?php echo $layout['value']; ?>"><?php echo $layout['label']; ?></label><br />
+	<?php endforeach; ?>
+	</td>
+	</tr>
+
 	</table>
 
 	<p class="submit"><input type="submit" class="button-primary" value="Save Options" /></p>
@@ -114,7 +112,28 @@ function sa_validate_options( $input ) {
 	$settings = get_option( 'sa_options', $sa_options );
 	
 	// We strip all tags from the text field, to avoid vulnerablilties like XSS
-	$input['google_font'] = wp_filter_post_kses( $input['google_font'] );
+	$input['footer_copyright'] = wp_filter_nohtml_kses( $input['footer_copyright'] );
+	
+	// We strip all tags from the text field, to avoid vulnerablilties like XSS
+	$input['intro_text'] = wp_filter_post_kses( $input['intro_text'] );
+	
+	// We select the previous value of the field, to restore it in case an invalid entry has been given
+	$prev = $settings['featured_cat'];
+	// We verify if the given value exists in the categories array
+	if ( !array_key_exists( $input['featured_cat'], $sa_categories ) )
+		$input['featured_cat'] = $prev;
+	
+	// We select the previous value of the field, to restore it in case an invalid entry has been given
+	$prev = $settings['layout_view'];
+	// We verify if the given value exists in the layouts array
+	if ( !array_key_exists( $input['layout_view'], $sa_layouts ) )
+		$input['layout_view'] = $prev;
+	
+	// If the checkbox has not been checked, we void it
+	if ( ! isset( $input['author_credits'] ) )
+		$input['author_credits'] = null;
+	// We verify if the input is a boolean value
+	$input['author_credits'] = ( $input['author_credits'] == 1 ? 1 : 0 );
 	
 	return $input;
 }
