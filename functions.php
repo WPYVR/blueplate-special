@@ -71,10 +71,8 @@ function toolbox_setup() {
 	add_theme_support( 'post-formats', array( 'aside', 'image', 'gallery' ) );
 	add_theme_support( 'post-thumbnails');
 	$args = array(
-	'flex-width'    => true,
-	'width'         => 146,
-	'flex-width'    => true,
-	'height'        => 150,
+	'width'         => 234,
+	'height'        => 174,
 	'default-image' => get_template_directory_uri() . '/images/blueplate_special_logo_01.png',
 	);
 	add_theme_support( 'custom-header', $args );
@@ -150,9 +148,19 @@ if ( ! function_exists( 'toolbox_content_nav' ) ):
     if (!is_admin()) {
 
       // DEREGISTER JS
-	  wp_enqueue_script('galleryview',get_bloginfo('template_url').'/js/galleryview/jquery.galleryview-2.1.1rp.js'); 
-	  wp_enqueue_script('easing',get_bloginfo('template_url').'/js/galleryview/jquery.easing.1.3.js'); 
-	  wp_enqueue_script('timers',get_bloginfo('template_url').'/js/galleryview/jquery.timers-1.2.js'); 
+      wp_deregister_script('jquery');
+
+ 
+      wp_register_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js');
+      wp_enqueue_script('jquery');
+	  // wp_register_script('flexslider',get_bloginfo('template_url').'/js/jquery.flexslider-min.js'); 
+	  // wp_enqueue_script('flexslider');  
+	  wp_register_script('galleryview',get_bloginfo('template_url').'/js/galleryview/jquery.galleryview-2.1.1rp.js'); 
+	  wp_enqueue_script('galleryview');  
+	  wp_register_script('easing',get_bloginfo('template_url').'/js/galleryview/jquery.easing.1.3.js'); 
+	  wp_enqueue_script('easing'); 
+	  wp_register_script('timers',get_bloginfo('template_url').'/js/galleryview/jquery.timers-1.2.js'); 
+	  wp_enqueue_script('timers'); 
       // REGISTERS JS
 	  }
 	}
@@ -604,14 +612,44 @@ function populate_day_of_the_week() {
 							    	'Sunday'
 								);
 
-		foreach($days_of_the_week as $day) {
-			$day_results = wp_insert_term($day, 'day_of_the_week', array('description'=> $day, 
-        												 					   'slug' => $day	
-        																));
+		
 			
-			$parent_term_id = $day_results['term_id'];
-			populate_meals_of_the_day($parent_term_id, $day);
-		}
+			if(taxonomy_exists(day_of_the_week)) {
+				foreach($days_of_the_week as $day) {
+				if( !term_exists($day, 'day_of_the_week') )	 {
+					$day_results = wp_insert_term($day, 'day_of_the_week', array('description'=> $day, 
+	        												 					   'slug' => $day	
+	        																));
+
+						if (!is_wp_error($day_results)) {
+							$parent_term_id = $day_results['term_id'];
+							populate_meals_of_the_day($parent_term_id, $day);
+						} else {
+							echo 'wp error';
+							print_r($errors);
+							// die();
+						}
+					}
+				}
+			}
+
+			else {
+				echo "doesn't exist";
+			}
+
+				
+
+
+			 // print_r($day_results);
+			// die('day of the week');
+			
+			// if(empty($day_results)) {
+			// 	echo " empty day results";
+			// 	die('empty day results');
+			// }
+
+
+	
 	    add_option('days_of_the_week', true);
 	    // die('day of the week');
 	}
