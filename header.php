@@ -77,7 +77,13 @@ frame_height: 71,
 filmstrip_position: 'bottom'		
 });	
 });	</script>
+	<script type="text/javascript" src="<?php bloginfo('template_directory'); ?>/js/jquery.validate.min.js"></script>
+	<script type="text/javascript">$(document).ready(function(){
+	$("#contactForm").validate();
+});</script>
 </head>
+
+
 
 <body <?php body_class(); ?>>
 <div id="page" class="hfeed">
