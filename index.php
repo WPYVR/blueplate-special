@@ -10,6 +10,11 @@ get_header(); ?>
 
 	<ul id="gallery">
 	
+	<?php $loop = new WP_Query( array( 'post_type' => 'mymenuitems', 'orderby' => 'menu_order', 'order' => 'ASC', 'posts_per_page' => 7) ); ?>
+	<?php while ( $loop->have_posts() ) : $loop->the_post();
+	//$featured = get_post_meta($post->ID, 'dbt_featcheckbox',true);
+	//if ($featured == "on") :
+	?>
 		<li>
 			<div class="panel-overlay">
 				<div class="clickview"><a href="<?php the_permalink(); ?>"> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</a></div>
@@ -19,11 +24,13 @@ get_header(); ?>
 				
 			</div>
 			<?php if ( has_post_thumbnail() ) : ?>
-			<a href="<?php the_permalink(); ?>"><?php the_post_thumbnail(); ?></a><!-- /image for gallery-->	
+			<?php the_post_thumbnail(); ?><!-- /image for gallery-->	
 			<?php else:?>
-			<a href="sample.htm"><img src="http://www.crispuno.ca/wp-content/uploads/2012/01/lulukfp-330x255.jpg" alt=""/></a>
+			<img src="<?php echo get_option( 'home' ); ?>/wp-content/themes/bighouse/images/noimage.jpg" alt=""/>
 			<?php endif; ?>
-		</li>	
+		</li>
+	<?php //endif; ?>
+	<?php endwhile; ?>	
 	</ul>
 
 

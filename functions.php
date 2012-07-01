@@ -28,6 +28,7 @@
 if ( ! isset( $content_width ) )
 	$content_width = 640; /* pixels */
 
+
 if ( ! function_exists( 'toolbox_setup' ) ):
 /**
  * Sets up theme defaults and registers support for various WordPress features.
@@ -57,7 +58,6 @@ function toolbox_setup() {
 	 * Add default posts and comments RSS feed links to head
 	 */
 	add_theme_support( 'automatic-feed-links' );
-
 	/**
 	 * This theme uses wp_nav_menu() in one location.
 	 */
@@ -69,6 +69,8 @@ function toolbox_setup() {
 	 * Add support for the Aside and Gallery Post Formats
 	 */
 	add_theme_support( 'post-formats', array( 'aside', 'image', 'gallery' ) );
+	add_theme_support( 'post-thumbnails');
+	
 }
 endif; // toolbox_setup
 
@@ -212,6 +214,34 @@ function create_my_post_types() {
 			'supports' => array( 'title', 'editor', 'excerpt','thumbnail','page-attributes' ),
 		)
 	);
+	register_post_type( 'testimonials',
+		array(
+			'labels' => array(
+				'name' => __( 'Testimonials' ),
+				'singular_name' => __( 'Testimonial' ),
+				'add_new' => __( 'Add Testimonial' ),
+				'add_new_item' => __( 'Add Testimonial' ),
+				'edit' => __( 'Edit' ),
+				'edit_item' => __( 'Edit Testimonials' ),
+				'new_item' => __( 'New Testimonial' ),
+				'view' => __( 'View Testimonial' ),
+				'view_item' => __( 'View Testimonial' ),
+				'search_items' => __( 'Search Testimonials' ),
+				'not_found' => __( 'No Testimonials found' ),
+				'not_found_in_trash' => __( 'No Testimonials found in Trash' ),
+				'parent' => __( 'Parent Testimonials' ),
+
+			),
+			'public' => true,
+			'show_ui' => true,
+			'publicly_queryable' => true,
+			'exclude_from_search' => false,
+			'menu_position' => 20,
+			'hierarchical' => true,
+			'query_var' => true,
+			'supports' => array( 'title', 'editor', 'excerpt','thumbnail','page-attributes' ),
+		)
+	);
 	flush_rewrite_rules( false );
 }
 
@@ -230,7 +260,7 @@ $meta_boxes = array(
 		array(
             'name' => 'Price',
             'id' => $prefix . 'txtprice',
-            'type' => 'text',
+            'type' => 'text'
         ),
 		array(
             'name' => 'Is this a special?',
@@ -353,7 +383,59 @@ function build_taxonomies() {
 	register_taxonomy( 'meal_of_the_day', 'mymenuitems', array( 'hierarchical' => true, 'label' => 'Day of the Week', 'query_var' => true, 'rewrite' => true ) );
 }
 
+//Auto Populate Pages
 
+function populate_pages() {
+// Create About Us page
+$pagename = 'About Us';
+$my_post = array(
+     'post_title' => $pagename,
+     'post_content' => 'Here is information about our restaurant.',
+     'post_status' => 'publish',
+     'post_author' => 1,
+     'post_type' => 'page',
+	 'post_name' => 'about_us'
+  );
+  $page_exists = get_page_by_title( $pagename );
+	if($page_exists) {       //do nothing
+	  } else {
+		$insert = wp_insert_post( $my_post );
+	}
+	
+// Create Menu Page
+$pagename = 'Menu';
+$my_post = array(
+     'post_title' => $pagename,
+     'post_content' => 'Here is your Menu page.',
+     'post_status' => 'publish',
+     'post_author' => 1,
+     'post_type' => 'page',
+	 'post_name' => 'our_menu'
+  );
+  $page_exists = get_page_by_title( $pagename );
+	if($page_exists) {       //do nothing
+	  } else {
+		$insert = wp_insert_post( $my_post );
+	}
+
+// Create Reservations Page
+$pagename = 'Reservations';
+$my_post = array(
+     'post_title' => $pagename,
+     'post_content' => 'Here is your Reservations page.',
+     'post_status' => 'publish',
+     'post_author' => 1,
+     'post_type' => 'page',
+	 'post_name' => 'make_reservations'
+  );
+  $page_exists = get_page_by_title( $pagename );
+	if($page_exists) {       //do nothing
+	  } else {
+		$insert = wp_insert_post( $my_post );
+	}
+}
+
+add_action ('init', 'populate_pages', 0);
 
 if ( ! function_exists( 'toolbox_comment' ) ) :
 /**
