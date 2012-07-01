@@ -142,7 +142,8 @@ if ( ! function_exists( 'toolbox_content_nav' ) ):
       wp_enqueue_script('jquery');
 	  wp_register_script('flexslider',get_bloginfo('template_url').'/js/jquery.flexslider-min.js'); 
 	  wp_enqueue_script('flexslider');  
-	  
+	  wp_register_script('galleryview',get_bloginfo('template_url').'/js/galleryview/jquery.galleryview-2.1.1rp.js'); 
+	  wp_enqueue_script('galleryview'); 
       // REGISTERS JS
 	  }
 	}
