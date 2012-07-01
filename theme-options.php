@@ -2,8 +2,9 @@
 
 // Default options values
 $sa_options = array(
-	'google_font' => '',
-
+	'font_h1' => '',
+	'font_h2' => '',
+	'font_h3' => ''
 );
 
 if ( is_admin() ) : // Load only if we are viewing an admin page
@@ -15,15 +16,36 @@ function sa_register_settings() {
 
 add_action( 'admin_init', 'sa_register_settings' );
 
-
-
-
 function sa_theme_options() {
 	// Add theme options page to the addmin menu
 	add_theme_page( 'Theme Options', 'Theme Options', 'edit_theme_options', 'theme_options', 'sa_theme_options_page' );
 }
 
 add_action( 'admin_menu', 'sa_theme_options' );
+
+// Store categories in array
+$google_fonts[0] = array(
+	'value' => 'Alex+Brush',
+	'label' => 'Alex Brush'
+);
+
+$google_fonts[1] = array(
+	'value' => 'Crimson+Text',
+	'label' => 'Crimson Text'
+);
+
+$google_fonts[2] = array(
+	'value' => 'Josefin+Sans',
+	'label' => 'Josefin Sans'
+);
+$google_fonts[3] = array(
+	'value' => 'Limelight',
+	'label' => 'Limelight'
+);
+$google_fonts[4] = array(
+	'value' => 'Spirax',
+	'label' => 'Spirax'
+);
 
 // Function to generate options page
 function sa_theme_options_page() {
@@ -59,6 +81,22 @@ function sa_theme_options_page() {
 	</td>
 	</tr>
 
+	<tr valign="top"><th scope="row"><label for="font_h1">Font for H1</label></th>
+	<td>
+	<select id="font_h1" name="font_h1">
+	<?php
+	foreach ( $google_fonts as $font ) :
+		$label = $font['label'];
+		$selected = '';
+		if ( $fonnt['value'] == $settings['font_h1'] )
+			$selected = 'selected="selected"';
+		echo '<option style="padding-right: 10px;" value="' . esc_attr( $font['value'] ) . '" ' . $selected . '>' . $label . '</option>';
+	endforeach;
+	?>
+	</select>
+	</td>
+	</tr>
+	
 	</table>
 
 	<p class="submit"><input type="submit" class="button-primary" value="Save Options" /></p>
