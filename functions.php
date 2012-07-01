@@ -71,10 +71,8 @@ function toolbox_setup() {
 	add_theme_support( 'post-formats', array( 'aside', 'image', 'gallery' ) );
 	add_theme_support( 'post-thumbnails');
 	$args = array(
-	'flex-width'    => true,
-	'width'         => 146,
-	'flex-width'    => true,
-	'height'        => 150,
+	'width'         => 234,
+	'height'        => 174,
 	'default-image' => get_template_directory_uri() . '/images/blueplate_special_logo_01.png',
 	);
 	add_theme_support( 'custom-header', $args );
