@@ -345,7 +345,7 @@ add_action( 'init', 'build_taxonomies', 0);
 
 function build_taxonomies() {
 	register_taxonomy( 'day_of_the_week', 'mymenuitems', array( 'hierarchical' => true, 'label' => 'Day of the Week', 'query_var' => true, 'rewrite' => true ) );
-	register_taxonomy( 'meal_of_the_day', 'mymenuitems', array( 'hierarchical' => true, 'label' => 'Day of the Week', 'query_var' => true, 'rewrite' => true ) );
+	// register_taxonomy( 'meal_of_the_day', 'mymenuitems', array( 'hierarchical' => true, 'label' => 'Meal of the Day', 'query_var' => true, 'rewrite' => true ) );
 }
 
 
@@ -503,41 +503,34 @@ add_filter( 'attachment_link', 'toolbox_enhanced_image_navigation' );
 // autopopulate days to day_of_the_week_taxonomy
 function populate_day_of_the_week() {
 
-	// if (!get_option('days_of_the_week_added')) {
+	if (!get_option('days_of_the_week')) {
 		
-		$days_of_the_week = array(
-							    'Monday',
-							    'Tuesday',
-							    'Wednesday',
-							    'Thursday',
-							    'Friday',
-							    'Saturday',
-							    'Sunday'
-							);
+		$days_of_the_week = array(  'Monday',
+							    	'Tuesday',
+							    	'Wednesday',
+							   	 	'Thursday',
+							    	'Friday',
+							    	'Saturday',
+							    	'Sunday'
+								);
 
-		foreach ($days_of_the_week as $day) {
-			$day_results = wp_insert_term($day, 'day_of_the_week', array('description'=> 'day of the week', 
-        												 'slug' => $day	
-        													));
+		foreach($days_of_the_week as $day) {
+			$day_results = wp_insert_term($day, 'day_of_the_week', array('description'=> $day, 
+        												 					   'slug' => $day	
+        																));
 			
-			$parent_term_id;
-			
-			// Grabbing parent term id. Need to refactor because hard to understand
-			foreach($day_results as $term_key => $term_value) {
-				$parent_term_id = $term_value;
-				break;
-			}
-			populate_meals_of_the_day($parent_term_id);
+			$parent_term_id = $day_results['term_id'];
+			populate_meals_of_the_day($parent_term_id, $day);
 		}
-		// die('term id');
-	    add_option('days_of_the_week_added', true);
+	    add_option('days_of_the_week', true);
+	    // die('day of the week');
 	}
- // } 
+ } 
 
  add_action('admin_init', 'populate_day_of_the_week');
 
 
-function populate_meals_of_the_day($parent_term_id) {
+function populate_meals_of_the_day($parent_term_id, $day) {
 
 	$meals_of_the_day = array(
 		'Breakfast',
@@ -545,11 +538,12 @@ function populate_meals_of_the_day($parent_term_id) {
 		'Dinner'
 	);
 
-	// add meals of the days for each day
+	// Add meals of the days for each day
 	foreach($meals_of_the_day as $meal_of_the_day) {
-		wp_insert_term($meal_of_the_day, 'day_of_the_week', array('description' => 'day_of_the_week',
-																	'slug' => $meal_of_the_day,
-																	'parent' => $parent_term_id
+		$slug = $meal_of_the_day . '-' . $day;
+		wp_insert_term($meal_of_the_day, 'day_of_the_week', array('description' => $meal_of_the_day,
+																		 'slug' => $slug,
+																	   'parent' => $parent_term_id
 																	));
 	}
 }
