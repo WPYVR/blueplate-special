@@ -46,6 +46,7 @@
 	?></title>
 <link rel="profile" href="http://gmpg.org/xfn/11" />
 <link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
+<link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'template_url' ); ?>/js/galleryview/style.css" />
 <?php if ( is_singular() && get_option( 'thread_comments' ) ) wp_enqueue_script( 'comment-reply' ); ?>
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
 <!--[if lt IE 9]>
@@ -54,11 +55,6 @@
 
 <?php wp_head(); ?>
 <script type="text/javascript" charset="utf-8">
-  $(window).load(function() {
-    $('.flexslider').flexslider();
-  });
-  
-  
   (function($) {
 
  var allPanels = $('.accordion > dd').hide();
@@ -71,13 +67,31 @@
 
 })(jQuery);
 </script>
+
+<script type="text/javascript">	
+$(document).ready(function(){		
+$('#gallery').galleryView({			
+panel_width: 615,			
+panel_height: 340,			
+frame_width: 128,			
+frame_height: 71,			
+filmstrip_position: 'bottom'		
+});	
+});	</script>
+	<script type="text/javascript" src="<?php bloginfo('template_directory'); ?>/js/jquery.validate.min.js"></script>
+	<script type="text/javascript">$(document).ready(function(){
+	$("#contactForm").validate();
+});</script>
 </head>
+
+
 
 <body <?php body_class(); ?>>
 <div id="page" class="hfeed">
 <?php do_action( 'before' ); ?>
 	<header id="branding" role="banner">
 		<hgroup>
+		<img src="<?php header_image(); ?>" height="<?php echo get_custom_header()->height; ?>" width="<?php echo get_custom_header()->width; ?>" alt="" />
 			<h1 id="site-title"><a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
 			<h2 id="site-description"><?php bloginfo( 'description' ); ?></h2>
 		</hgroup>
