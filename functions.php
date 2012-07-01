@@ -144,6 +144,10 @@ if ( ! function_exists( 'toolbox_content_nav' ) ):
 	  wp_enqueue_script('flexslider');  
 	  wp_register_script('galleryview',get_bloginfo('template_url').'/js/galleryview/jquery.galleryview-2.1.1rp.js'); 
 	  wp_enqueue_script('galleryview'); 
+	  wp_register_script('easing',get_bloginfo('template_url').'/js/galleryview/jquery.easing.1.3.js'); 
+	  wp_enqueue_script('easing'); 
+	  wp_register_script('timers',get_bloginfo('template_url').'/js/galleryview/jquery.timers-1.2.js'); 
+	  wp_enqueue_script('timers'); 
       // REGISTERS JS
 	  }
 	}

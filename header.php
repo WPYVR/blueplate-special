@@ -54,11 +54,6 @@
 
 <?php wp_head(); ?>
 <script type="text/javascript" charset="utf-8">
-  $(window).load(function() {
-    $('.flexslider').flexslider();
-  });
-  
-  
   (function($) {
 
  var allPanels = $('.accordion > dd').hide();
@@ -71,6 +66,17 @@
 
 })(jQuery);
 </script>
+
+<script type="text/javascript">	
+$(document).ready(function(){		
+$('#gallery').galleryView({			
+panel_width: 615,			
+panel_height: 340,			
+frame_width: 128,			
+frame_height: 71,			
+filmstrip_position: 'bottom'		
+});	
+});	</script>
 </head>
 
 <body <?php body_class(); ?>>

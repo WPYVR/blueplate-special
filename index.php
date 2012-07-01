@@ -8,19 +8,23 @@ get_header(); ?>
 		<div id="primary">
 			<div id="content" role="main">
 
-<div class="flexslider">
-  <ul class="slides">
-    <li>
-      <img src="http://www.crispuno.ca/wp-content/uploads/2012/01/lulukfp-330x255.jpg" />
-    </li>
-    <li>
-      <img src="http://www.crispuno.ca/wp-content/uploads/2012/01/dandfp-160x115.jpg" />
-    </li>
-    <li>
-      <img src="http://www.crispuno.ca/wp-content/uploads/2012/01/silverfp-300x245.jpg" />
-    </li>
-  </ul>
-</div>
+	<ul id="gallery">
+	
+		<li>
+			<div class="panel-overlay">
+				<div class="clickview"><a href="<?php the_permalink(); ?>"> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</a></div>
+				<h2 class="entry-title"><?php the_title( '<a href="' . get_permalink() . '" title="' . the_title_attribute( 'echo=0' ) . '" rel="bookmark">', '</a>' ); ?></h2>
+				<br />
+				<?php the_excerpt(); ?>
+				
+			</div>
+			<?php if ( has_post_thumbnail() ) : ?>
+			<a href="<?php the_permalink(); ?>"><?php the_post_thumbnail(); ?></a><!-- /image for gallery-->	
+			<?php else:?>
+			<a href="sample.htm"><img src="http://www.crispuno.ca/wp-content/uploads/2012/01/lulukfp-330x255.jpg" alt=""/></a>
+			<?php endif; ?>
+		</li>	
+	</ul>
 
 
 			</div><!-- #content -->
