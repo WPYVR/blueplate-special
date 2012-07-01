@@ -152,13 +152,13 @@ if ( ! function_exists( 'toolbox_content_nav' ) ):
       // DEREGISTER JS
       wp_deregister_script('jquery');
 
-      // ADD CDN JQUERY CODE
+ 
       wp_register_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js');
       wp_enqueue_script('jquery');
 	  wp_register_script('flexslider',get_bloginfo('template_url').'/js/jquery.flexslider-min.js'); 
 	  wp_enqueue_script('flexslider');  
 	  wp_register_script('galleryview',get_bloginfo('template_url').'/js/galleryview/jquery.galleryview-2.1.1rp.js'); 
-	  wp_enqueue_script('galleryview'); 
+	  wp_enqueue_script('galleryview');  
 	  wp_register_script('easing',get_bloginfo('template_url').'/js/galleryview/jquery.easing.1.3.js'); 
 	  wp_enqueue_script('easing'); 
 	  wp_register_script('timers',get_bloginfo('template_url').'/js/galleryview/jquery.timers-1.2.js'); 

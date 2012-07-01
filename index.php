@@ -26,7 +26,7 @@ get_header(); ?>
 			<?php if ( has_post_thumbnail() ) : ?>
 			<?php the_post_thumbnail(); ?><!-- /image for gallery-->	
 			<?php else:?>
-			<img src="<?php echo get_option( 'home' ); ?>/wp-content/themes/bighouse/images/noimage.jpg" alt=""/>
+			<img src="<?php echo get_bloginfo( 'template_url' ); ?>/images/noimage.jpg" alt=""/>
 			<?php endif; ?>
 		</li>
 	<?php //endif; ?>
