@@ -654,6 +654,7 @@ function populate_meals_of_the_day($parent_term_id) {
 	}
 }
 
+require_once ( get_stylesheet_directory() . '/theme-options.php' );
 
 /**
  * This theme was built with PHP, Semantic HTML, CSS, love, and a Toolbox.
