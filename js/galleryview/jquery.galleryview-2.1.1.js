@@ -27,7 +27,7 @@ var window_loaded = false;
 		var item_count = 0;		// INT - Total number of panels/frames
 		var slide_method;		// STRING - indicator to slide entire filmstrip or just the pointer ('strip','pointer')
 		var theme_path;			// STRING - relative path to theme directory
-		var paused = true;		// BOOLEAN - flag to indicate whether automated transitions are active
+		var paused = false;		// BOOLEAN - flag to indicate whether automated transitions are active
 		
 	// Element dimensions
 		var gallery_width;
@@ -443,20 +443,14 @@ var window_loaded = false;
 			$('.panel-overlay',j_panels).css({
 				'position':'absolute',
 				'zIndex':'999',
-				//'width':(opts.panel_width-extraWidth($('.panel-overlay',j_panels)))+'px',
-				'top':'25px',
-				'height':'300px',
-				'width':'250px',
-				'left':'310px',
+				'width':(opts.panel_width-extraWidth($('.panel-overlay',j_panels)))+'px',
+				'left':'0'
 			});
 			$('.overlay-background',j_panels).css({
 				'position':'absolute',
 				'zIndex':'998',
-				'top':'25px',
-				//'height':'300px',
-				//'width':'250px',
-				//'width':opts.panel_width+'px',
-				'left':'310px',
+				'width':opts.panel_width+'px',
+				'left':'0',
 				'opacity':opts.overlay_opacity
 			});
 //Rayms Changes
@@ -467,13 +461,13 @@ var window_loaded = false;
 //				$('.panel-overlay',j_panels).css('bottom',0);
 //				$('.overlay-background',j_panels).css('bottom',0);
 //			}
-//			if(opts.overlay_position=='top') {
-//				$('.panel-overlay',j_panels).css('top',0);
-//				$('.overlay-background',j_panels).css('top',0);
-//			} else {
-//				$('.panel-overlay',j_panels).css('bottom',0);
-//				$('.overlay-background',j_panels).css('bottom',0);
-//			}			
+			if(opts.overlay_position=='top') {
+				$('.panel-overlay',j_panels).css('top',0);
+				$('.overlay-background',j_panels).css('top',0);
+			} else {
+				$('.panel-overlay',j_panels).css('bottom',0);
+				$('.overlay-background',j_panels).css('bottom',0);
+			}			
 			$('.panel iframe',j_panels).css({
 				'width':opts.panel_width+'px',
 				'height':opts.panel_height+'px',
@@ -519,7 +513,6 @@ var window_loaded = false;
 				'listStyle':'none',
 				'margin':'0',
 				'padding':'0',
-				'background': 'white',
 				'width':strip_width+'px',
 				'position':'absolute',
 				'zIndex':'900',
@@ -621,11 +614,14 @@ var window_loaded = false;
 			pointer.addClass('pointer').appendTo(j_gallery).css({
 				 'position':'absolute',
 				 'zIndex':'1000',
-				 'width':'40px',
-				 'height':'30px',
+				 'width':'0px',
 				 'fontSize':'0px',
 				 'lineHeight':'0%',
-		
+				 'borderTopWidth':pointer_height+'px',
+				 'borderRightWidth':(pointer_width/2)+'px',
+				 'borderBottomWidth':pointer_height+'px',
+				 'borderLeftWidth':(pointer_width/2)+'px',
+				 'borderStyle':'solid'
 			});
 			
 			// For IE6, use predefined color string in place of transparent (IE6 bug fix, see stylesheet)
@@ -1019,15 +1015,15 @@ var window_loaded = false;
 		panel_width: 600,					//INT - width of gallery panel (in pixels)
 		panel_height: 400,					//INT - height of gallery panel (in pixels)
 		frame_width: 60,					//INT - width of filmstrip frames (in pixels)
-		frame_height: 47,					//INT - width of filmstrip frames (in pixels)
+		frame_height: 40,					//INT - width of filmstrip frames (in pixels)
 		
 		start_frame: 1,						//INT - index of panel/frame to show first when gallery loads
 		filmstrip_size: 3,					
 		transition_speed: 800,				//INT - duration of panel/frame transition (in milliseconds)
-		transition_interval: 5000,			//INT - delay between panel/frame transitions (in milliseconds)
+		transition_interval: 4000,			//INT - delay between panel/frame transitions (in milliseconds)
 		
-		overlay_opacity: 0.9,				//FLOAT - transparency for panel overlay (1.0 = opaque, 0.0 = transparent)
-		frame_opacity: 1.0,					//FLOAT - transparency of non-active frames (1.0 = opaque, 0.0 = transparent)
+		overlay_opacity: 0.7,				//FLOAT - transparency for panel overlay (1.0 = opaque, 0.0 = transparent)
+		frame_opacity: 0.3,					//FLOAT - transparency of non-active frames (1.0 = opaque, 0.0 = transparent)
 		
 		pointer_size: 8,					//INT - Height of frame pointer (in pixels)
 		
@@ -1037,13 +1033,13 @@ var window_loaded = false;
 		filmstrip_position: 'bottom',		//STRING - position of filmstrip within gallery (bottom, top, left, right)
 		overlay_position: 'bottom',			//STRING - position of panel overlay (bottom, top, left, right)
 		
-		panel_scale: 'crop',				//STRING - cropping option for panel images (crop = scale image and fit to aspect ratio determined by panel_width and panel_height, nocrop = scale image and preserve original aspect ratio)
+		panel_scale: 'nocrop',				//STRING - cropping option for panel images (crop = scale image and fit to aspect ratio determined by panel_width and panel_height, nocrop = scale image and preserve original aspect ratio)
 		frame_scale: 'crop',				//STRING - cropping option for filmstrip images (same as above)
 		
-		frame_gap: 8,						//INT - spacing between frames within filmstrip (in pixels)
+		frame_gap: 5,						//INT - spacing between frames within filmstrip (in pixels)
 		
 		show_captions: false,				//BOOLEAN - flag to show or hide frame captions
-		fade_panels: false,					//BOOLEAN - flag to fade panels during transitions or swap instantly
+		fade_panels: true,					//BOOLEAN - flag to fade panels during transitions or swap instantly
 		pause_on_hover: false				//BOOLEAN - flag to pause slideshow when user hovers over the gallery
 	};
 })(jQuery);

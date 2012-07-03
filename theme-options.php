@@ -1,37 +1,30 @@
 <?php
 
 // Default options values
-$sa_options = array(
-	'footer_copyright' => '&copy; ' . date('Y') . ' ' . get_bloginfo('name'),
-	'intro_text' => '',
-	'featured_cat' => '',
-	'font_h2' => '',
-	'layout_view' => 'fixed',
-	'author_credits' => true
+$bp_options = array(
+	'telephone' => '&copy; ' . date('Y') . ' ' . get_bloginfo('name'),
+	'resto_address' => '',
+	'custom_font' => 'fixed',
 );
 
 if ( is_admin() ) : // Load only if we are viewing an admin page
 
-function sa_register_settings() {
+function bp_register_settings() {
 	// Register settings and call sanitation functions
-	register_setting( 'sa_theme_options', 'sa_options', 'sa_validate_options' );
+	register_setting( 'bp_theme_options', 'bp_options', 'bp_validate_options' );
 }
 
-add_action( 'admin_init', 'sa_register_settings' );
+add_action( 'admin_init', 'bp_register_settings' );
 
 
 // Store layouts views in array
-$sa_layouts = array(
+$bp_layouts = array(
 	'Spirax' => array(
 		'value' => 'Spirax',
 		'label' => 'Spirax'
 	),
 	'Limelight' => array(
-		'value' => 'fluid',
-		'label' => 'Limelight'
-	),
-	'Limelight' => array(
-		'value' => 'fluid',
+		'value' => 'Limelight',
 		'label' => 'Limelight'
 	),
 	'Josefin+Sans' => array(
@@ -50,18 +43,19 @@ $sa_layouts = array(
 		'value' => 'Crimson+Text',
 		'label' => 'Crimson Text'
 	),
+
 );
 
-function sa_theme_options() {
+function bp_theme_options() {
 	// Add theme options page to the addmin menu
-	add_theme_page( 'Theme Options', 'Theme Options', 'edit_theme_options', 'theme_options', 'sa_theme_options_page' );
+	add_theme_page( 'Theme Options', 'Theme Options', 'edit_theme_options', 'theme_options', 'bp_theme_options_page' );
 }
 
-add_action( 'admin_menu', 'sa_theme_options' );
+add_action( 'admin_menu', 'bp_theme_options' );
 
 // Function to generate options page
-function sa_theme_options_page() {
-	global $sa_options, $sa_categories, $sa_layouts;
+function bp_theme_options_page() {
+	global $bp_options, $bp_categories, $bp_layouts;
 
 	if ( ! isset( $_REQUEST['updated'] ) )
 		$_REQUEST['updated'] = false; // This checks whether the form has just been submitted. ?>
@@ -77,19 +71,31 @@ function sa_theme_options_page() {
 
 	<form method="post" action="options.php">
 
-	<?php $settings = get_option( 'sa_options', $sa_options ); ?>
+	<?php $settings = get_option( 'bp_options', $bp_options ); ?>
 	
-	<?php settings_fields( 'sa_theme_options' );
+	<?php settings_fields( 'bp_theme_options' );
 	/* This function outputs some hidden fields required by the form,
 	including a nonce, a unique number used to ensure the form has been submitted from the admin page
 	and not somewhere else, very important for security */ ?>
 
 	<table class="form-table"><!-- Grab a hot cup of coffee, yes we're using tables! -->
 	
+	
+	<tr valign="top"><th scope="row"><label for="resto_address">Address</label></th>
+	<td>
+	<textarea id="resto_address" name="bp_options[resto_address]" rows="5" cols="30"><?php echo stripslashes($settings['resto_address']); ?></textarea>
+	</td>
+	</tr>
+	<tr valign="top"><th scope="row"><label for="telephone">Telephone</label></th>
+	<td>
+	<input id="telephone" name="bp_options[telephone]" type="text" value="<?php  esc_attr_e($settings['telephone']); ?>" />
+	</td>
+	</tr>
+	
 	<tr valign="top"><th scope="row">Custom Font</th>
 	<td>
-	<?php foreach( $sa_layouts as $layout ) : ?>
-	<input type="radio" id="<?php echo $layout['value']; ?>" name="sa_options[layout_view]" value="<?php esc_attr_e( $layout['value'] ); ?>" <?php checked( $settings['layout_view'], $layout['value'] ); ?> />
+	<?php foreach( $bp_layouts as $layout ) : ?>
+	<input type="radio" id="<?php echo $layout['value']; ?>" name="bp_options[custom_font]" value="<?php esc_attr_e( $layout['value'] ); ?>" <?php checked( $settings['custom_font'], $layout['value'] ); ?> />
 	<label for="<?php echo $layout['value']; ?>"><?php echo $layout['label']; ?></label><br />
 	<?php endforeach; ?>
 	</td>
@@ -104,36 +110,24 @@ function sa_theme_options_page() {
 	</div>
 
 	<?php
+
 }
 
-function sa_validate_options( $input ) {
-	global $sa_options, $sa_categories, $sa_layouts;
+function bp_validate_options( $input ) {
+	global $bp_options, $bp_categories, $bp_layouts;
 
-	$settings = get_option( 'sa_options', $sa_options );
-	
+	$settings = get_option( 'bp_options', $bp_options );
 	// We strip all tags from the text field, to avoid vulnerablilties like XSS
-	$input['footer_copyright'] = wp_filter_nohtml_kses( $input['footer_copyright'] );
-	
+	$input['telephone'] = wp_filter_nohtml_kses( $input['telephone'] );
 	// We strip all tags from the text field, to avoid vulnerablilties like XSS
-	$input['intro_text'] = wp_filter_post_kses( $input['intro_text'] );
-	
+	$input['resto_address'] = wp_filter_post_kses( $input['resto_address'] );
 	// We select the previous value of the field, to restore it in case an invalid entry has been given
-	$prev = $settings['featured_cat'];
-	// We verify if the given value exists in the categories array
-	if ( !array_key_exists( $input['featured_cat'], $sa_categories ) )
-		$input['featured_cat'] = $prev;
-	
-	// We select the previous value of the field, to restore it in case an invalid entry has been given
-	$prev = $settings['layout_view'];
+	$prev = $settings['custom_font'];
 	// We verify if the given value exists in the layouts array
-	if ( !array_key_exists( $input['layout_view'], $sa_layouts ) )
-		$input['layout_view'] = $prev;
+	if ( !array_key_exists( $input['custom_font'], $bp_layouts ) )
+		$input['custom_font'] = $prev;
 	
-	// If the checkbox has not been checked, we void it
-	if ( ! isset( $input['author_credits'] ) )
-		$input['author_credits'] = null;
-	// We verify if the input is a boolean value
-	$input['author_credits'] = ( $input['author_credits'] == 1 ? 1 : 0 );
+
 	
 	return $input;
 }
