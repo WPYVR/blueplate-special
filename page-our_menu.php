@@ -16,8 +16,14 @@ $today = date('l');
 				 if (!empty($day_of_the_week)) {
 						  foreach ($day_of_the_week as $term) {
 							if($term->name == $today) {
-							the_title();
-							the_content();
+							echo $term->name;
+							$termchildren = get_term_children( 7, 'day_of_the_week');//this line does not work
+								foreach ($termchildren as $child) {
+								$subcat = get_term_by ('id', $child, 'day_of_the_week');
+								echo $subcat->slug;
+								the_title();
+								the_content();
+								}
 							}
 						}
 					}
