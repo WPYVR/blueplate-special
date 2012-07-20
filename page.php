@@ -7,8 +7,8 @@
  * and that other 'pages' on your WordPress site will use a
  * different template.
  *
- * @package Toolbox
- * @since Toolbox 0.1
+ * @package blueplate
+ * @since blueplate 0.1
  */
 
 get_header(); ?>

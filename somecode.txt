@@ -1,0 +1,16 @@
+ ?>
+				<ul> 
+<?php
+    // grab terms of current post, replace taxonomy name
+    $terms = get_the_terms($post->ID, 'day_of_the_week');
+    // define arguments of following listing function
+    $args = array (
+        'child_of' => $terms[0], // current post's (first) category 
+        'title_li' => '', // disable display of outer list item 
+        'taxonomy' => 'day_of_the_week' // replace as well
+    );
+    // list child categories
+    wp_list_categories($args);
+?>
+</ul>
+ <?php

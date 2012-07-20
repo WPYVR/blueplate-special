@@ -4,8 +4,8 @@
  *
  * Displays all of the <head> section and everything up till <div id="main">
  *
- * @package Toolbox
- * @since Toolbox 0.1
+ * @package blueplate
+ * @since blueplate 0.1
  */
 ?><!DOCTYPE html>
 <!--[if IE 6]>
@@ -41,7 +41,7 @@
 
 	// Add a page number if necessary:
 	if ( $paged >= 2 || $page >= 2 )
-		echo ' | ' . sprintf( __( 'Page %s', 'toolbox' ), max( $paged, $page ) );
+		echo ' | ' . sprintf( __( 'Page %s', 'blueplate' ), max( $paged, $page ) );
 
 	?></title>
 <link rel="profile" href="http://gmpg.org/xfn/11" />

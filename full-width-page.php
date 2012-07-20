@@ -3,8 +3,8 @@
  * Template Name: Full-width, no sidebar
  * Description: A full-width template with no sidebar
  *
- * @package Toolbox
- * @since Toolbox 0.1
+ * @package blueplate
+ * @since blueplate 0.1
  */
 
 get_header(); ?>

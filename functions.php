@@ -634,7 +634,5 @@ function populate_meals_of_the_day($parent_term_id, $day) {
 
 require_once ( get_stylesheet_directory() . '/theme-options.php' );
 require_once ( get_stylesheet_directory() . '/widgets/widget-testimonials.php' );
-/**
- * This theme was built with PHP, Semantic HTML, CSS, love, and a blueplate.
- */
+
  
